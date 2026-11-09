@@ -60,7 +60,7 @@ function filter(){const current=deck[index],cat=$('category').value,kind=$('kind
 deck=cards.filter(c=>(!cat||cat===c.category)&&(!kind||kind===c.kind)&&(!unknown||marks[c.id]!=='known')&&(!query||[c.front,c.english,c.meaning,c.definition,c.clue].join(' ').toLocaleLowerCase().includes(query))).map(c=>c.id);
 const found=deck.indexOf(current);index=found>=0?found:0;revealed=false;render()}
 function render(){const known=cards.filter(c=>marks[c.id]==='known').length;$('known').textContent=known;$('bar').style.width=(known/cards.length*100)+'%';$('count').textContent=deck.length?`${index+1} / ${deck.length}`:'0 / 0';
-const ok=deck.length>0;$('flash').style.display=ok?'flex':'none';$('empty').style.display=ok?'none':'block';
+const ok=deck.length>0;$('flash').style.display=ok?'flex':'none';$('empty').style.display=ok?'none':'block';if(!ok)$('empty').textContent=$('unknown').checked?'この条件の単語はすべて覚えました！ 絞り込みを解除すると復習できます。':'条件に合う単語がありません。検索や絞り込みを変えてね。';
 for(const id of ['prev','next','flip','review','remember'])$(id).disabled=!ok;
 if(!ok){$('status').textContent='';return}
 const c=cards.find(x=>x.id===deck[index]);$('fTag').textContent=`No.${c.id}  ·  ${c.category}  ·  ${c.kind}`;$('bTag').textContent=`No.${c.id}  ·  ${c.category}`;
@@ -69,7 +69,22 @@ $('flash').classList.toggle('answer',revealed);$('flash').setAttribute('aria-exp
 $('status').textContent=marks[c.id]==='known'?'✓ 覚えた':marks[c.id]==='review'?'↺ 復習が必要':'まだ評価していません';}
 function flip(){if(!deck.length)return;revealed=!revealed;render()}
 function move(delta){if(!deck.length)return;index=(index+delta+deck.length)%deck.length;revealed=false;render()}
-function mark(value){if(!deck.length)return;marks[deck[index]]=value;save();if($('unknown').checked)filter();else render()}
+function mark(value){
+ if(!deck.length)return;
+ const currentId=deck[index];
+ marks[currentId]=value;
+ save();
+ if($('unknown').checked && value==='known'){
+   // 現在のカードだけを取り除き、並び順と現在位置を維持する。
+   deck.splice(index,1);
+   if(index>=deck.length)index=Math.max(0,deck.length-1);
+ } else if(index<deck.length-1){
+   // 通常表示や「復習する」は次のカードへ。末尾から先頭へは戻さない。
+   index++;
+ }
+ revealed=false;
+ render();
+}
 $('flash').addEventListener('click',flip);$('flip').addEventListener('click',flip);$('prev').addEventListener('click',()=>move(-1));$('next').addEventListener('click',()=>move(1));
 $('review').addEventListener('click',()=>mark('review'));$('remember').addEventListener('click',()=>mark('known'));
 $('category').addEventListener('change',filter);$('kind').addEventListener('change',filter);$('search').addEventListener('input',filter);$('unknown').addEventListener('change',filter);
