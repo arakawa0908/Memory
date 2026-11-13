@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7f8fb"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="サービス管理80語">
+<title>応用情報 科目B | サービスマネジメント80語 単語帳</title>
+<style>
+:root{--bg:#f7f8fb;--ink:#162b38;--muted:#637684;--accent:#135c84;--border:#dae4ed;--good:#127453;--warning:#9a620e;--surface:white}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;color-scheme:light}
+body{background:var(--bg);color:var(--ink);margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;line-height:1.5}
+button,input,select{font:inherit;touch-action:manipulation}button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,select:focus-visible,input:focus-visible,[role="button"]:focus-visible{outline:3px solid #7bb5dd;outline-offset:2px}
+main{max-width:640px;padding:0 16px calc(34px + env(safe-area-inset-bottom));margin:auto}
+header{padding:calc(23px + env(safe-area-inset-top)) 0 20px}
+.eyebrow{font-size:11px;color:var(--accent);letter-spacing:.06em;font-weight:800}
+h1{font-size:clamp(24px,6vw,32px);letter-spacing:-.03em;line-height:1.25;margin:8px 0}
+.sub{font-size:12px;color:var(--muted);line-height:1.65;margin:6px 0}
+.topstats{display:flex;justify-content:space-between;align-items:end;gap:8px;font-size:12px;color:var(--muted);margin-bottom:8px}
+.topstats strong{font-size:23px;color:var(--ink);font-variant-numeric:tabular-nums}
+.track{height:8px;background:#e0e8ed;border-radius:99px;overflow:hidden;margin-bottom:15px}
+#bar{height:100%;width:0;background:var(--good);transition:width .15s}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+select,input[type=search]{min-width:0;width:100%;background:white;border:1px solid var(--border);border-radius:11px;min-height:44px;padding:10px 11px;font-size:13px;color:var(--ink)}
+#search{grid-column:1/-1}
+.group{font-size:12px;color:var(--muted);font-weight:700;margin:13px 0 6px}
+.segment{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.segment.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.segment button{background:#fff;color:var(--ink);border:1px solid var(--border);border-radius:11px;font-size:13px;font-weight:750;min-height:46px;padding:8px 4px}
+.segment button.active{background:#e6f3fa;color:#0c5379;border-color:#2a7aa3;box-shadow:inset 0 0 0 1px #2a7aa3}
+.segment button .tiny{font-size:11px;opacity:.8}
+.actions{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:12px 0 10px}
+.actions .hint{font-size:12px;color:var(--muted)}
+.plainbtn{background:white;border:1px solid var(--border);border-radius:10px;color:var(--ink);font-size:12px;font-weight:750;padding:9px 11px;min-height:39px}
+.flash{min-height:340px;border:1px solid var(--border);border-radius:20px;background:var(--surface);box-shadow:0 9px 29px #163c5010;padding:23px;display:flex;flex-direction:column;justify-content:center;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:pointer}
+.flash.revealed{justify-content:flex-start}
+.tag{font-size:12px;font-weight:800;color:var(--accent);margin:0 0 16px}
+.ask{font-size:13px;color:var(--muted);font-weight:750;margin:0 0 13px}
+.prompt{font-size:clamp(28px,6vw,39px);font-weight:800;line-height:1.4;letter-spacing:-.03em;overflow-wrap:anywhere;margin:28px 0 42px;text-align:center}
+.prompt.reverse{font-size:clamp(19px,4.8vw,26px);letter-spacing:0;font-weight:700;text-align:left;line-height:1.65;margin:10px 0 30px}
+.tap{font-size:12px;color:#8193a0;text-align:center;margin:0}
+#back{display:none}.revealed #front{display:none}.revealed #back{display:block}
+.term{font-size:clamp(23px,5.7vw,34px);font-weight:850;overflow-wrap:anywhere;color:var(--accent);margin:5px 0 8px}
+.english{font-size:17px;color:#274e68;font-weight:750;overflow-wrap:anywhere}
+.field{font-size:11px;color:var(--accent);font-weight:800;margin:17px 0 4px}
+.desc{font-size:15px;line-height:1.75;overflow-wrap:anywhere;margin:0}
+.clue{background:#eff6fb;padding:10px 12px;border-radius:10px}
+.nav{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.nav button{border:1px solid var(--border);background:white;border-radius:11px;min-height:48px;font-size:13px;font-weight:800;color:var(--ink)}
+.nav .primary{background:#165778;color:white;border-color:#165778}
+.grades{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.grades button{border-radius:11px;min-height:49px;font-weight:800;border:1px solid}
+.review{background:#fff5e5;color:var(--warning);border-color:#eddbb9!important}
+.learned{background:#e3f5e9;color:var(--good);border-color:#bdddc9!important}
+.deletebar{display:flex;justify-content:space-between;align-items:center;gap:7px;margin:12px 0 8px}
+.danger{border:1px solid #e5bbbb;background:#fff6f6;color:#a13b3b;padding:9px;border-radius:10px;font-weight:750;font-size:12px;min-height:42px}
+.deletebar .plainbtn{font-size:12px}
+.notice{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 12px;background:#eaf3fc;border:1px solid #cce0f2;border-radius:10px;font-size:12px;color:#23536e}
+.notice button{border:0;color:#1b6087;text-decoration:underline;font-weight:800;background:transparent}
+.panel{background:white;border:1px solid var(--border);border-radius:13px;padding:13px;margin-top:9px}
+.panelhead{display:flex;justify-content:space-between;align-items:center}
+.deletedlist{display:grid;gap:6px;max-height:310px;overflow:auto;margin-top:10px}
+.deletedrow{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#f3f7f9;padding:9px 10px;border-radius:8px;font-size:13px}
+.deletedrow button{border:1px solid var(--border);background:white;color:#165778;padding:8px;border-radius:7px;font-weight:800;flex-shrink:0}
+.empty{padding:42px 20px;border:1px solid var(--border);border-radius:18px;text-align:center;background:white;color:var(--muted);line-height:1.75}
+.footer{margin-top:18px;font-size:12px;color:var(--muted);line-height:1.75}
+button:disabled{opacity:.35;cursor:default}
+[hidden]{display:none!important}
+@media(max-width:350px){main{padding-left:11px;padding-right:11px}.segment button{font-size:11px}.flash{padding:18px}}
+</style>
+</head>
+<body><main>
+<header><div class="eyebrow">応用情報技術者試験 · 科目B</div>
+<h1>サービスマネジメント<br>重要80語 単語帳</h1>
+<p class="sub">用語の英語名称・単語の意味・役割・試験での見分け方</p>
+</header>
+<div class="topstats"><span>覚えた <strong id="known">0</strong><span id="total"> / 80語</span></span><span id="count">1 / 80</span></div>
+<div class="track"><div id="bar"></div></div>
+<div class="filters">
+<select id="category" aria-label="出題分野"><option value="">すべての分野</option></select>
+<select id="kind" aria-label="学習セット"><option value="">80語すべて</option><option value="基礎40語">基礎40語</option><option value="発展40語">発展40語</option></select>
+<input type="search" id="search" aria-label="単語を検索" placeholder="用語・意味から検索">
+</div>
+<p class="group">出題方向</p>
+<div class="segment" role="group" aria-label="出題方向">
+<button type="button" data-direction="term" class="direction active" aria-pressed="true">用語 → 意味</button>
+<button type="button" data-direction="meaning" class="direction" aria-pressed="false">意味 → 用語</button>
+</div>
+<p class="group">出題モード</p>
+<div class="segment three" role="group" aria-label="出題モード">
+<button type="button" data-mode="all" class="mode active" aria-pressed="true">すべて</button>
+<button type="button" data-mode="unknown" class="mode" aria-pressed="false">未暗記だけ</button>
+<button type="button" data-mode="review" class="mode" aria-pressed="false">復習だけ <span id="reviewCount" class="tiny">0</span></button>
+</div>
+<div class="actions"><span class="hint" id="modeHint">すべての単語を表示</span><button type="button" class="plainbtn" id="shuffle">⇄ シャッフル</button></div>
+<div class="flash" id="flash" role="button" tabindex="0" aria-expanded="false" aria-label="カードの表裏を切替">
+<div id="front"><div id="frontTag" class="tag"></div><p id="ask" class="ask" hidden>この説明に当てはまる用語は？</p><div id="prompt" class="prompt">読み込み中…</div><p class="tap">タップで答えを見る ↓</p></div>
+<div id="back"><div id="backTag" class="tag"></div><div id="answerTerm" class="term" hidden></div><div id="english" class="english"></div><div class="field">英単語の意味・語源</div><p id="meaning" class="desc"></p><div class="field">役割・何をするもの？</div><p id="definition" class="desc"></p><div class="field">試験での見分け方</div><p id="clue" class="desc clue"></p><p class="tap" style="margin-top:18px">タップで問題に戻る ↑</p></div>
+</div>
+<div class="empty" id="empty" hidden></div>
+<div class="nav"><button type="button" id="prev">← 前</button><button type="button" id="flip" class="primary">答えを見る</button><button type="button" id="next">次 →</button></div>
+<div class="grades"><button type="button" id="review" class="review">↺ 復習する</button><button type="button" id="remember" class="learned">✓ 覚えた</button></div>
+<div class="deletebar"><button type="button" class="danger" id="deleteCard">✕ この単語を削除</button><button type="button" class="plainbtn" id="toggleDeleted" aria-expanded="false">削除済み <span id="deletedCount">0</span>語を管理</button></div>
+<div class="notice" id="undoBar" hidden><span>出題対象から削除したよ。</span><button type="button" id="undo">元に戻す</button></div>
+<div class="panel" id="deletedPanel" hidden><div class="panelhead"><strong>削除済みの単語</strong><button type="button" id="restoreAll" class="plainbtn">すべて復元</button></div><p id="noneDeleted" class="sub">削除済みの単語はありません。</p><div class="deletedlist" id="deletedList"></div></div>
+<div class="actions"><span id="status" class="hint"></span><button type="button" class="plainbtn" id="reset">暗記記録をリセット</button></div>
+<p class="footer">この単語帳はセキュリティ版・システム監査版とは別に記録します。削除は出題対象からの除外で、元の単語データは残ります。「削除済みを管理」で復元できます。カードは左右スワイプでも移動できます。<br>※80語はIPAの出題範囲を参考にした独自の学習用選定で、公式の頻出順位ではありません。一部の英語名は対応表現であり、正式な略称ではない場合があります。進捗は同じブラウザの保存領域に記録するため、プライベートブラウズ・データ消去・ブラウザ変更では失われる場合があります。</p>
+<noscript><p class="empty">単語帳を操作するにはSafariのJavaScriptを有効にしてください。</p></noscript>
+</main>
+<script id="cards-data" type="application/json">[{"id":1,"category":"基本・ITIL","kind":"基礎40語","front":"ITサービスマネジメント（ITSM）","english":"IT Service Management","meaning":"IT＝情報技術、Service＝サービス、Management＝管理","definition":"利用者に価値を届けるためITサービスの計画・提供・改善を組織的に管理する","clue":"サービス提供全体、品質・コスト・継続的改善"},{"id":2,"category":"基本・ITIL","kind":"基礎40語","front":"ITIL","english":"Information Technology Infrastructure Library（名称の由来）","meaning":"Information＝情報、Infrastructure＝基盤、Library＝体系化された文書群","definition":"ITサービス管理に役立つ考え方・実践方法をまとめたフレームワーク","clue":"ベストプラクティス、ITIL 4、プラクティス"},{"id":3,"category":"基本・ITIL","kind":"基礎40語","front":"ITサービス","english":"IT Service","meaning":"Service＝価値を提供するサービス","definition":"利用者が個々の技術的なリスクや費用を直接管理せず目的を達成できるよう支援する手段","clue":"技術そのものではなく利用者への価値提供"},{"id":4,"category":"基本・ITIL","kind":"基礎40語","front":"サービス価値システム（SVS）","english":"Service Value System","meaning":"Value＝価値、System＝仕組み","definition":"ガバナンス・プラクティス・継続的改善などを組み合わせて価値共創するITIL 4の枠組み","clue":"ITIL 4、価値共創、全体の仕組み"},{"id":5,"category":"基本・ITIL","kind":"基礎40語","front":"サービスバリューチェーン","english":"Service Value Chain","meaning":"Chain＝つながり・連鎖","definition":"需要や機会を価値へつなぐための活動群を示すITIL 4の運用モデル","clue":"計画、改善、関係者との協働、設計・移行、取得・構築、提供・サポート"},{"id":6,"category":"基本・ITIL","kind":"発展40語","front":"サービスカタログ","english":"Service Catalogue","meaning":"Catalogue＝一覧・目録","definition":"利用者向けに利用可能なサービスと利用条件を分かりやすく示す","clue":"サービス一覧、申請方法、利用者向け案内"},{"id":7,"category":"基本・ITIL","kind":"発展40語","front":"サービスポートフォリオ","english":"Service Portfolio","meaning":"Portfolio＝保有する案件・サービスの集合","definition":"計画中・提供中・廃止済みを含むサービス全体を管理する考え方","clue":"ライフサイクル全体のサービス群"},{"id":8,"category":"基本・ITIL","kind":"発展40語","front":"サービス提供者","english":"Service Provider","meaning":"Provider＝提供者","definition":"利用者に対してサービスを設計・提供・維持する組織や役割","clue":"提供側の責任、契約・サービス品質"},{"id":9,"category":"基本・ITIL","kind":"発展40語","front":"サービス利用者","english":"Service Consumer","meaning":"Consumer＝利用・消費する側","definition":"サービスの価値を受ける側。顧客・利用者・スポンサーなどを含む","clue":"使う側の要求、顧客・ユーザー"},{"id":10,"category":"基本・ITIL","kind":"発展40語","front":"サービスデザイン","english":"Service Design","meaning":"Design＝設計","definition":"合意した品質・容量・継続性を満たすようサービスや管理方法を設計する","clue":"サービス開始前の設計、非機能要件"},{"id":11,"category":"SLA・指標","kind":"基礎40語","front":"SLA（サービスレベル合意）","english":"Service Level Agreement","meaning":"Level＝水準、Agreement＝合意","definition":"サービス提供者と顧客の間で品質目標や責任を合意した文書","clue":"応答時間・稼働率・サポート時間の約束"},{"id":12,"category":"SLA・指標","kind":"基礎40語","front":"SLM（サービスレベル管理）","english":"Service Level Management","meaning":"Level＝水準、Management＝管理","definition":"サービスレベルを定義・合意・監視・報告・改善する活動","clue":"SLAの設定と達成状況レビュー"},{"id":13,"category":"SLA・指標","kind":"基礎40語","front":"SLO（サービスレベル目標）","english":"Service Level Objective","meaning":"Objective＝目標","definition":"サービスレベルに関して達成すべき具体的な目標値","clue":"99.9%稼働、4時間以内に復旧"},{"id":14,"category":"SLA・指標","kind":"基礎40語","front":"OLA（運用レベル合意）","english":"Operational Level Agreement","meaning":"Operational＝運用の、Agreement＝合意","definition":"提供組織の内部部門間で役割や支援水準を取り決める","clue":"内部部署同士の支援時間・対応分担"},{"id":15,"category":"SLA・指標","kind":"基礎40語","front":"UC（外部委託先との契約）","english":"Underpinning Contract","meaning":"Underpinning＝下支えする、Contract＝契約","definition":"外部サプライヤとの契約でサービスレベルの履行を支える","clue":"外部委託先の責任、SLAを支える契約"},{"id":16,"category":"SLA・指標","kind":"発展40語","front":"KPI（重要業績評価指標）","english":"Key Performance Indicator","meaning":"Key＝重要、Performance＝実績、Indicator＝指標","definition":"業務やサービスの目標達成状況を数値で監視する","clue":"一次解決率、平均復旧時間、処理件数"},{"id":17,"category":"SLA・指標","kind":"発展40語","front":"CSF（重要成功要因）","english":"Critical Success Factor","meaning":"Critical＝重要な、Success＝成功、Factor＝要因","definition":"目標達成のために特に成功させる必要がある事項","clue":"成功の条件・重点領域を特定"},{"id":18,"category":"SLA・指標","kind":"発展40語","front":"サービスレビュー","english":"Service Review","meaning":"Review＝評価・見直し","definition":"顧客とサービス実績・目標との差・改善方針を定期的に確認する","clue":"月次報告、実績とSLAの比較"},{"id":19,"category":"SLA・指標","kind":"発展40語","front":"顧客満足度","english":"Customer Satisfaction","meaning":"Customer＝顧客、Satisfaction＝満足","definition":"サービスについて顧客・利用者が感じる満足の度合い","clue":"利用者アンケート、顧客の評価"},{"id":20,"category":"SLA・指標","kind":"発展40語","front":"SLA違反","english":"Service Level Agreement Breach","meaning":"Breach＝違反・未達","definition":"合意したサービス水準を達成できなかった状態","clue":"目標99.9%に対し実績99.5%"},{"id":21,"category":"窓口・要求","kind":"基礎40語","front":"サービスデスク","english":"Service Desk","meaning":"Desk＝窓口","definition":"利用者との一次窓口として問合せ・障害連絡・サービス要求を受け付ける","clue":"受付窓口、チケット起票、案内"},{"id":22,"category":"窓口・要求","kind":"基礎40語","front":"SPOC（単一窓口）","english":"Single Point of Contact","meaning":"Single＝単一、Point＝接点、Contact＝連絡","definition":"利用者からの連絡を一つの窓口に集約する考え方","clue":"問合せ窓口の一本化、たらい回し防止"},{"id":23,"category":"窓口・要求","kind":"基礎40語","front":"サービス要求","english":"Service Request","meaning":"Request＝依頼・要求","definition":"通常のサービス提供の一部として行う定型的な利用者の依頼","clue":"パスワード再発行、アカウント発行依頼"},{"id":24,"category":"窓口・要求","kind":"基礎40語","front":"サービス要求管理","english":"Service Request Management","meaning":"Request＝依頼、Management＝管理","definition":"定型的な要求を迅速かつ利用者に分かりやすく処理する活動","clue":"申請フォーム、標準的な要求の承認・実行"},{"id":25,"category":"窓口・要求","kind":"基礎40語","front":"FAQ","english":"Frequently Asked Questions","meaning":"Frequently＝頻繁に、Asked＝尋ねられる、Questions＝質問","definition":"よくある質問と回答をまとめ利用者の自己解決を支援する","clue":"問合せ削減、自己解決率"},{"id":26,"category":"窓口・要求","kind":"発展40語","front":"ナレッジ管理","english":"Knowledge Management","meaning":"Knowledge＝知識、Management＝管理","definition":"対応ノウハウや知見を整理・共有して再利用できるようにする","clue":"過去の対応記録の再利用、属人化解消"},{"id":27,"category":"窓口・要求","kind":"発展40語","front":"ナレッジベース","english":"Knowledge Base","meaning":"Knowledge＝知識、Base＝蓄積基盤","definition":"過去の対処法や手順などを検索できる知識の蓄積場所","clue":"回答集、対応履歴を検索"},{"id":28,"category":"窓口・要求","kind":"発展40語","front":"一次解決率","english":"First Contact Resolution Rate（FCR）","meaning":"First＝最初の、Resolution＝解決、Rate＝率","definition":"最初の窓口や初回の接触で解決した問合せの割合","clue":"サービスデスクでエスカレーションせず解決"},{"id":29,"category":"窓口・要求","kind":"発展40語","front":"機能的エスカレーション","english":"Functional Escalation","meaning":"Functional＝専門機能の、Escalation＝上位・他担当への引継ぎ","definition":"技術・業務の専門知識があるチームへ対応を引き継ぐ","clue":"一次窓口から専門部門へ"},{"id":30,"category":"窓口・要求","kind":"発展40語","front":"階層的エスカレーション","english":"Hierarchical Escalation","meaning":"Hierarchical＝組織の階層に沿った","definition":"意思決定や調整のため管理者・上位責任者に引き上げる","clue":"期限超過、重大障害、管理職への報告"},{"id":31,"category":"インシデント・問題","kind":"基礎40語","front":"インシデント","english":"Incident","meaning":"Incident＝発生した事象・障害","definition":"サービスの中断・品質低下、またはそれらにつながり得る事象","clue":"ログインできない、サーバ停止"},{"id":32,"category":"インシデント・問題","kind":"基礎40語","front":"インシデント管理","english":"Incident Management","meaning":"Incident＝障害など、Management＝管理","definition":"サービスへの影響を小さくし正常提供をできるだけ早く回復する","clue":"まず復旧、影響の最小化、暫定対処"},{"id":33,"category":"インシデント・問題","kind":"基礎40語","front":"問題管理","english":"Problem Management","meaning":"Problem＝障害の根本原因や潜在原因","definition":"インシデントの原因や潜在原因を特定・管理し再発や影響を防ぐ","clue":"根本原因、再発防止、恒久対策"},{"id":34,"category":"インシデント・問題","kind":"基礎40語","front":"既知のエラー","english":"Known Error","meaning":"Known＝分かっている、Error＝不具合","definition":"分析済みの問題で原因や回避策などの情報が確認されているもの","clue":"原因分析済み、対処情報を共有"},{"id":35,"category":"インシデント・問題","kind":"基礎40語","front":"ワークアラウンド","english":"Workaround","meaning":"Workaround＝迂回策・回避策","definition":"根本原因を直さず障害の影響を軽減・回避する暫定的な手段","clue":"代替手順、暫定復旧、回避策"},{"id":36,"category":"インシデント・問題","kind":"発展40語","front":"根本原因分析（RCA）","english":"Root Cause Analysis","meaning":"Root＝根っこ、Cause＝原因、Analysis＝分析","definition":"表面的な症状ではなく不具合を引き起こした原因を究明する","clue":"なぜなぜ分析、根本原因"},{"id":37,"category":"インシデント・問題","kind":"発展40語","front":"優先度","english":"Priority","meaning":"Priority＝優先順位","definition":"影響度と緊急度などから対応順を決める指標","clue":"重大利用者影響＋急ぎなら優先度高"},{"id":38,"category":"インシデント・問題","kind":"発展40語","front":"影響度","english":"Impact","meaning":"Impact＝影響","definition":"障害がどれほど広い範囲・重要業務に影響するか","clue":"影響ユーザー数、重要業務への波及"},{"id":39,"category":"インシデント・問題","kind":"発展40語","front":"緊急度","english":"Urgency","meaning":"Urgency＝急を要する度合い","definition":"どれほど速く対応しなければならないか","clue":"期限までの時間、急ぎの必要性"},{"id":40,"category":"インシデント・問題","kind":"発展40語","front":"KEDB（既知のエラーデータベース）","english":"Known Error Database","meaning":"Known＝既知の、Error＝エラー、Database＝データベース","definition":"問題の原因・回避策など既知のエラー情報を再利用する","clue":"過去の原因・回避策の検索、迅速な復旧"},{"id":41,"category":"変更・構成・リリース","kind":"基礎40語","front":"変更実現","english":"Change Enablement","meaning":"Change＝変更、Enablement＝実現可能にすること","definition":"リスクを適切に評価・承認し有用な変更を円滑に行えるようにする","clue":"ITIL 4での変更管理、変更のリスク評価"},{"id":42,"category":"変更・構成・リリース","kind":"基礎40語","front":"RFC（変更要求）","english":"Request for Change","meaning":"Request＝依頼、Change＝変更","definition":"システムやサービスの変更を正式に提案・申請する情報","clue":"変更申請書、影響・リスク・承認"},{"id":43,"category":"変更・構成・リリース","kind":"基礎40語","front":"CAB（変更諮問委員会）","english":"Change Advisory Board","meaning":"Advisory＝助言する、Board＝委員会","definition":"変更の評価・優先度・実施判断に必要な助言を行う関係者の集まり","clue":"変更のリスク、関係部門の審議・助言"},{"id":44,"category":"変更・構成・リリース","kind":"基礎40語","front":"標準変更","english":"Standard Change","meaning":"Standard＝標準の","definition":"リスクが低く事前承認された手順どおりに実施する変更","clue":"繰り返しの定型変更、事前承認"},{"id":45,"category":"変更・構成・リリース","kind":"基礎40語","front":"緊急変更","english":"Emergency Change","meaning":"Emergency＝緊急","definition":"重大な障害や脆弱性などに急いで対処するための変更","clue":"至急のパッチ、迅速な承認手順"},{"id":46,"category":"変更・構成・リリース","kind":"発展40語","front":"リリース管理","english":"Release Management","meaning":"Release＝利用可能な状態にする・提供","definition":"新しい機能や修正を利用者が使える状態にするための管理","clue":"リリースの計画・調整、利用可能にする"},{"id":47,"category":"変更・構成・リリース","kind":"発展40語","front":"デプロイ管理","english":"Deployment Management","meaning":"Deployment＝配置・展開","definition":"変更されたハードウェアやソフトウェアを対象環境へ配備する","clue":"本番環境への配置、展開"},{"id":48,"category":"変更・構成・リリース","kind":"発展40語","front":"構成管理","english":"Service Configuration Management","meaning":"Configuration＝構成・設定","definition":"サービスを構成する要素とそれらの関係の情報を正確に維持する","clue":"サーバ・ソフトの関係、構成の把握"},{"id":49,"category":"変更・構成・リリース","kind":"発展40語","front":"CI（構成品目）","english":"Configuration Item","meaning":"Configuration＝構成、Item＝項目","definition":"管理対象となるサービスの構成要素。サーバ・ソフト・文書など","clue":"個々の構成品目と識別番号"},{"id":50,"category":"変更・構成・リリース","kind":"発展40語","front":"CMDB（構成管理データベース）","english":"Configuration Management Database","meaning":"Configuration＝構成、Management＝管理、Database＝データベース","definition":"構成品目の属性・関係・変更履歴などを管理する情報源","clue":"構成品目と依存関係を検索"},{"id":51,"category":"運用・監視","kind":"基礎40語","front":"監視","english":"Monitoring","meaning":"Monitor＝観察・監視する","definition":"サービスや機器の稼働状況・性能などを継続的に確認する","clue":"メトリクス、定期チェック、しきい値"},{"id":52,"category":"運用・監視","kind":"基礎40語","front":"イベント","english":"Event","meaning":"Event＝発生事象","definition":"管理対象の状態変化として意味がある出来事","clue":"監視通知、状態変化、情報・警告・例外"},{"id":53,"category":"運用・監視","kind":"基礎40語","front":"監視・イベント管理","english":"Monitoring and Event Management","meaning":"Monitoring＝監視、Event＝状態変化","definition":"監視から状態変化を把握し適切な対応を開始する","clue":"監視ツールからイベント検知、通知・対応"},{"id":54,"category":"運用・監視","kind":"基礎40語","front":"アラート","english":"Alert","meaning":"Alert＝警報・注意喚起","definition":"対応の必要がある状態を担当者やシステムへ通知する","clue":"しきい値超過、障害通知"},{"id":55,"category":"運用・監視","kind":"基礎40語","front":"容量・能力管理","english":"Capacity and Performance Management","meaning":"Capacity＝処理容量、Performance＝性能","definition":"現在・将来の需要に対して必要な資源と性能を確保する","clue":"CPU負荷、利用量予測、増強時期"},{"id":56,"category":"運用・監視","kind":"発展40語","front":"性能管理","english":"Performance Management","meaning":"Performance＝性能・処理実績","definition":"応答時間や処理能力を測定・分析し要求性能を維持する","clue":"レスポンスタイム、スループット"},{"id":57,"category":"運用・監視","kind":"発展40語","front":"ジョブ管理","english":"Job Management","meaning":"Job＝処理単位・作業","definition":"定期処理の起動順序・実行条件・結果を管理する","clue":"夜間ジョブ、依存関係、実行失敗"},{"id":58,"category":"運用・監視","kind":"発展40語","front":"バッチ処理","english":"Batch Processing","meaning":"Batch＝まとめた一群","definition":"一定量のデータをまとめて定期・一括で処理する","clue":"夜間集計、日次一括処理"},{"id":59,"category":"運用・監視","kind":"発展40語","front":"バックアップ","english":"Backup","meaning":"Backup＝予備の複製","definition":"障害や誤操作によるデータ損失に備えてデータを複製する","clue":"世代管理、保存先、バックアップ取得"},{"id":60,"category":"運用・監視","kind":"発展40語","front":"復元テスト","english":"Restore Test","meaning":"Restore＝復元、Test＝試験","definition":"取得したバックアップから必要なデータを実際に戻せるか検証する","clue":"バックアップ成功だけでは不十分、実際の復元"},{"id":61,"category":"可用性・継続性","kind":"基礎40語","front":"可用性管理","english":"Availability Management","meaning":"Availability＝利用可能性","definition":"合意したサービスの可用性を満たすよう設計・測定・改善する","clue":"停止を減らす、稼働率目標"},{"id":62,"category":"可用性・継続性","kind":"基礎40語","front":"稼働率","english":"Availability Percentage","meaning":"Availability＝利用可能性、Percentage＝百分率","definition":"測定対象時間のうちサービスを利用できた時間の割合","clue":"（対象時間−停止時間）÷対象時間"},{"id":63,"category":"可用性・継続性","kind":"基礎40語","front":"MTBF（平均故障間隔）","english":"Mean Time Between Failures","meaning":"Mean＝平均、Between＝間、Failures＝故障","definition":"修理して使う設備の故障から次の故障までの平均稼働時間","clue":"値が大きいほど故障間隔が長い"},{"id":64,"category":"可用性・継続性","kind":"基礎40語","front":"MTTR（平均復旧時間）","english":"Mean Time To Restore / Repair","meaning":"Mean＝平均、Restore＝復旧、Repair＝修理","definition":"故障後にサービスや設備を回復させるまでの平均時間。測定範囲は定義による","clue":"値が小さいほど復旧が速い"},{"id":65,"category":"可用性・継続性","kind":"基礎40語","front":"MTTF（平均故障寿命）","english":"Mean Time To Failure","meaning":"Mean＝平均、Failure＝故障","definition":"故障までの平均稼働時間。修理しない部品などの寿命指標","clue":"故障までの寿命、非修理系"},{"id":66,"category":"可用性・継続性","kind":"発展40語","front":"RTO（目標復旧時間）","english":"Recovery Time Objective","meaning":"Recovery＝復旧、Time＝時間、Objective＝目標","definition":"障害後、サービスを何時間以内に復旧すべきかという目標","clue":"何時までにサービス復旧？"},{"id":67,"category":"可用性・継続性","kind":"発展40語","front":"RPO（目標復旧時点）","english":"Recovery Point Objective","meaning":"Recovery＝復旧、Point＝時点、Objective＝目標","definition":"復旧後のデータを障害前のどの時点まで戻せればよいかという目標","clue":"何分前のデータまで失ってよい？"},{"id":68,"category":"可用性・継続性","kind":"発展40語","front":"BCP（事業継続計画）","english":"Business Continuity Plan","meaning":"Business＝事業、Continuity＝継続、Plan＝計画","definition":"災害時などに重要業務を維持・再開するための計画","clue":"企業全体の業務継続、優先業務"},{"id":69,"category":"可用性・継続性","kind":"発展40語","front":"DRP（災害復旧計画）","english":"Disaster Recovery Plan","meaning":"Disaster＝災害、Recovery＝復旧、Plan＝計画","definition":"災害後にITシステム・設備・データを復旧するための計画","clue":"代替拠点、復旧手順、復旧訓練"},{"id":70,"category":"可用性・継続性","kind":"発展40語","front":"BIA（事業影響度分析）","english":"Business Impact Analysis","meaning":"Business＝事業、Impact＝影響、Analysis＝分析","definition":"業務が停止した際の影響と許容停止時間などを分析する","clue":"重要業務の優先順位、停止影響"},{"id":71,"category":"改善・供給者・費用","kind":"基礎40語","front":"サプライヤ管理","english":"Supplier Management","meaning":"Supplier＝供給者・委託先","definition":"外部供給者の契約・品質・リスク・成果を管理する","clue":"外部委託、契約評価、サービス品質"},{"id":72,"category":"改善・供給者・費用","kind":"基礎40語","front":"継続的改善","english":"Continual Improvement","meaning":"Continual＝継続的な、Improvement＝改善","definition":"サービスや活動を繰り返し評価し価値・品質・効率を高める","clue":"定期的に評価→改善→再評価"},{"id":73,"category":"改善・供給者・費用","kind":"基礎40語","front":"PDCAサイクル","english":"Plan, Do, Check, Act","meaning":"Plan＝計画、Do＝実行、Check＝評価、Act＝改善","definition":"計画・実行・評価・改善を繰り返して管理活動を改善する","clue":"4段階の改善サイクル"},{"id":74,"category":"改善・供給者・費用","kind":"基礎40語","front":"CSI（継続的サービス改善）","english":"Continual Service Improvement","meaning":"Continual＝継続、Service＝サービス、Improvement＝改善","definition":"従来のITILでサービスの継続的改善を扱う領域。ITIL 4では継続的改善へ統合","clue":"旧ITILの用語、改善活動の継続"},{"id":75,"category":"改善・供給者・費用","kind":"基礎40語","front":"ベンチマーキング","english":"Benchmarking","meaning":"Benchmark＝比較の基準","definition":"他社や過去の優良な実績と比較し改善の手がかりを得る","clue":"他社比較、ベストプラクティス"},{"id":76,"category":"改善・供給者・費用","kind":"発展40語","front":"ITサービス財務管理","english":"IT Service Financial Management","meaning":"Financial＝財務上の、Management＝管理","definition":"ITサービスの費用を予算化・把握・管理する","clue":"予算管理、サービスごとの原価"},{"id":77,"category":"改善・供給者・費用","kind":"発展40語","front":"TCO（総保有コスト）","english":"Total Cost of Ownership","meaning":"Total＝総額、Cost＝費用、Ownership＝所有・利用","definition":"購入費だけでなく保守・運用・廃棄までの総費用を捉える","clue":"初期費用＋運用費＋保守費"},{"id":78,"category":"改善・供給者・費用","kind":"発展40語","front":"ITサービス継続性管理","english":"IT Service Continuity Management","meaning":"Continuity＝継続、Management＝管理","definition":"災害や大規模障害時も合意した時間内にサービスを復旧できるよう備える","clue":"BCPとの連携、代替拠点・復旧訓練"},{"id":79,"category":"改善・供給者・費用","kind":"発展40語","front":"サービス移行","english":"Service Transition","meaning":"Transition＝移行・切替え","definition":"新規または変更されたサービスを安全に運用環境へ移すための活動・段階","clue":"本番移行、移行時のリスク"},{"id":80,"category":"改善・供給者・費用","kind":"発展40語","front":"KGI（重要目標達成指標）","english":"Key Goal Indicator","meaning":"Key＝重要、Goal＝目標、Indicator＝指標","definition":"最終的な事業目標がどの程度達成されたかを示す指標","clue":"達成すべきゴール、KPIとの違い"}]</script>
+<script>
+(function(){
+'use strict';
+const cards=JSON.parse(document.getElementById('cards-data').textContent);
+const $=id=>document.getElementById(id);
+const PREFIX='ap-b-servicemgmt80-v1';
+const KEYS={marks:PREFIX+'-marks',deleted:PREFIX+'-deleted',direction:PREFIX+'-direction',mode:PREFIX+'-mode',position:PREFIX+'-position'};
+let marks={},deleted=new Set(),direction='term',mode='all',deck=cards.map(c=>c.id),index=0,revealed=false,lastDeleted=null;
+function get(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch(e){return fallback}}
+function put(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch(e){}}
+marks=get(KEYS.marks,{});
+const storedDeleted=get(KEYS.deleted,[]);
+if(Array.isArray(storedDeleted))deleted=new Set(storedDeleted.filter(id=>Number.isInteger(id)&&cards.some(c=>c.id===id)));
+if(['term','meaning'].includes(get(KEYS.direction,'term')))direction=get(KEYS.direction,'term');
+if(['all','unknown','review'].includes(get(KEYS.mode,'all')))mode=get(KEYS.mode,'all');
+for(const value of [...new Set(cards.map(c=>c.category))]){const option=document.createElement('option');option.value=value;option.textContent=value;$('category').appendChild(option)}
+function notifyUI(){
+  $('deletedCount').textContent=deleted.size;
+  $('reviewCount').textContent=cards.filter(c=>!deleted.has(c.id)&&marks[c.id]==='review').length;
+  $('noneDeleted').hidden=deleted.size>0;
+  $('restoreAll').disabled=deleted.size===0;
+  const fragment=document.createDocumentFragment();
+  for(const c of cards.filter(c=>deleted.has(c.id))){
+    const line=document.createElement('div');line.className='deletedrow';
+    const label=document.createElement('span');label.textContent=c.front;
+    const button=document.createElement('button');button.type='button';button.textContent='復元';
+    button.setAttribute('aria-label',c.front+' を復元');
+    button.addEventListener('click',()=>restore(c.id));
+    line.append(label,button);fragment.appendChild(line);
+  }
+  $('deletedList').replaceChildren(fragment);
+}
+function updateButtons(){
+for(const b of document.querySelectorAll('.direction')){const selected=b.dataset.direction===direction;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected))}
+for(const b of document.querySelectorAll('.mode')){const selected=b.dataset.mode===mode;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected))}
+$('modeHint').textContent=mode==='review'?'復習指定の単語だけ':mode==='unknown'?'まだ覚えていない単語だけ':'すべての単語を表示';
+}
+function filter(){
+ const current=deck[index],oldIndex=index,cat=$('category').value,kind=$('kind').value,query=$('search').value.trim().toLocaleLowerCase();
+ deck=cards.filter(c=>!deleted.has(c.id)&&(!cat||c.category===cat)&&(!kind||c.kind===kind)&&(mode==='all'||(mode==='unknown'&&marks[c.id]!=='known')||(mode==='review'&&marks[c.id]==='review'))&&(!query||[c.front,c.english,c.meaning,c.definition,c.clue].join(' ').toLocaleLowerCase().includes(query))).map(c=>c.id);
+ const same=deck.indexOf(current);index=same>=0?same:Math.min(oldIndex,Math.max(0,deck.length-1));revealed=false;render();
+}
+function render(){
+ const total=cards.length-deleted.size,known=cards.filter(c=>!deleted.has(c.id)&&marks[c.id]==='known').length;
+ $('known').textContent=known;$('total').textContent=' / '+total+'語';$('bar').style.width=(total?known/total*100:0)+'%';
+ $('count').textContent=deck.length?(index+1)+' / '+deck.length:'0 / 0';
+ updateButtons();notifyUI();
+ const ok=deck.length>0;
+ $('flash').hidden=!ok;$('empty').hidden=ok;
+ for(const id of ['prev','flip','next','remember','review','deleteCard'])$(id).disabled=!ok;
+ if(!ok){$('status').textContent='';$('empty').textContent=mode==='review'?'復習する単語はありません。「すべて」に戻り、間違えた単語を「復習する」に登録してね。':mode==='unknown'?'この条件の単語は全部覚えたね！ 「すべて」に切替えると見直せます。':'条件に合う単語はありません。絞り込みや削除済み一覧を確認してね。';return}
+ const c=cards.find(c=>c.id===deck[index]);put(KEYS.position,c.id);
+ $('frontTag').textContent='No.'+c.id+' · '+c.category+' · '+c.kind;
+ $('backTag').textContent='No.'+c.id+' · '+c.category;
+ const reverse=direction==='meaning';
+ $('ask').hidden=!reverse;$('prompt').textContent=reverse?c.definition:c.front;$('prompt').classList.toggle('reverse',reverse);
+ $('answerTerm').hidden=!reverse;$('answerTerm').textContent=reverse?c.front:'';
+ $('english').textContent=c.english;$('meaning').textContent=c.meaning;
+ $('definition').textContent=c.definition;$('clue').textContent=c.clue;
+ $('flash').classList.toggle('revealed',revealed);$('flash').setAttribute('aria-expanded',String(revealed));
+ $('flip').textContent=revealed?'問題に戻る':'答えを見る';
+ $('status').textContent=marks[c.id]==='known'?'✓ 覚えた':marks[c.id]==='review'?'↺ 復習が必要':'まだ評価していません';
+}
+function flip(){if(!deck.length)return;revealed=!revealed;render()}
+function move(step){if(!deck.length)return;index=(index+step+deck.length)%deck.length;revealed=false;render()}
+function mark(value){
+ if(!deck.length)return;
+ const id=deck[index];marks[id]=value;put(KEYS.marks,marks);
+ if((mode==='unknown'||mode==='review')&&value==='known'){
+   deck.splice(index,1);if(index>=deck.length)index=Math.max(0,deck.length-1);
+ }else if(index<deck.length-1){index++}
+ revealed=false;render();
+}
+function remove(){
+ if(!deck.length)return;
+ const id=deck[index];deleted.add(id);lastDeleted=id;put(KEYS.deleted,[...deleted]);deck.splice(index,1);
+ if(index>=deck.length)index=Math.max(0,deck.length-1);
+ revealed=false;$('undoBar').hidden=false;render();
+}
+function restore(id){
+ if(!deleted.has(id))return;
+ deleted.delete(id);put(KEYS.deleted,[...deleted]);if(lastDeleted===id){lastDeleted=null;$('undoBar').hidden=true}
+ filter();
+}
+$('flash').addEventListener('click',flip);$('flash').addEventListener('keydown',e=>{if([' ','Enter'].includes(e.key)){e.preventDefault();flip()}});
+$('flip').addEventListener('click',flip);$('prev').addEventListener('click',()=>move(-1));$('next').addEventListener('click',()=>move(1));
+$('remember').addEventListener('click',()=>mark('known'));$('review').addEventListener('click',()=>mark('review'));$('deleteCard').addEventListener('click',remove);
+$('undo').addEventListener('click',()=>{if(lastDeleted!==null)restore(lastDeleted)});
+$('toggleDeleted').addEventListener('click',()=>{const open=$('deletedPanel').hidden;$('deletedPanel').hidden=!open;$('toggleDeleted').setAttribute('aria-expanded',String(open))});
+$('restoreAll').addEventListener('click',()=>{if(deleted.size&&confirm('削除済みの単語をすべて復元しますか？')){deleted.clear();lastDeleted=null;$('undoBar').hidden=true;put(KEYS.deleted,[]);filter()}});
+$('reset').addEventListener('click',()=>{if(confirm('暗記・復習の記録をすべてリセットしますか？ 削除済みの単語はそのままです。')){marks={};put(KEYS.marks,marks);filter()}});
+for(const el of document.querySelectorAll('.direction'))el.addEventListener('click',()=>{direction=el.dataset.direction;revealed=false;put(KEYS.direction,direction);render()});
+for(const el of document.querySelectorAll('.mode'))el.addEventListener('click',()=>{mode=el.dataset.mode;put(KEYS.mode,mode);filter()});
+for(const id of ['category','kind'])$(id).addEventListener('change',filter);
+$('search').addEventListener('input',filter);
+$('shuffle').addEventListener('click',()=>{for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}index=0;revealed=false;render()});
+document.addEventListener('keydown',e=>{if(['INPUT','SELECT'].includes(document.activeElement.tagName))return;if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1)});
+let sx=0,sy=0,swiping=false;
+$('flash').addEventListener('touchstart',e=>{if(e.touches.length===1){sx=e.touches[0].clientX;sy=e.touches[0].clientY}},{passive:true});
+$('flash').addEventListener('touchend',e=>{if(e.changedTouches.length!==1)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*1.6){swiping=true;move(dx<0?1:-1);setTimeout(()=>swiping=false,450)}},{passive:true});
+$('flash').removeEventListener('click',flip);$('flash').addEventListener('click',()=>{if(!swiping)flip()});
+const resume=get(KEYS.position,0);filter();if(resume){const at=deck.indexOf(resume);if(at!==-1){index=at;render()}}
+})();
+</script></body></html>
